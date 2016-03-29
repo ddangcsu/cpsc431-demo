@@ -1,0 +1,12 @@
+# Code Igniter to remove index.php from the URL with Apache .htaccess
+# mod_rewrite   https://www.codeigniter.com/userguide3/general/urls.html
+RewriteEngine On
+
+# If the rewrite is at the root i.e. http://example.com, then
+# RewriteBase /
+
+# The rewrite base is http://localhost/project/
+RewriteBase /project/
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ index.php/$1 [L]
