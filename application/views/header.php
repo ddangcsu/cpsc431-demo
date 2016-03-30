@@ -24,12 +24,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
           </div> <!-- Navigation bar Header -->
 
           <ul class="nav navbar-nav">
-            <li><a href="/project" class="btn">
+            <li><a href="<?=base_url("/") ?>" class="btn">
               <span class="glyphicon glyphicon-home"></span>
               Home</a>
             </li>
-            <li><a class="btn" href="categories">Categories</a></li>
-            <li><a class="btn" href="articles">Articles</a></li>
+            <li><a class="btn" href="<?=base_url("categories") ?>" >Categories</a></li>
+            <li><a class="btn" href="<?=base_url("articles") ?>">Articles</a></li>
           </ul> <!-- Navigation bar right -->
         </div> <!-- Container Fluid -->
       </nav> <!-- Navigation bar -->
