@@ -18,19 +18,27 @@ defined('BASEPATH') OR exit('No direct script access allowed');
       <nav class="navbar navbar-inverse navbar-static-top">
         <div class="container-fluid">
           <div class="navbar-header">
+            <!-- Button to open the collapsed navbar item -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#demoNavbar">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
             <span class="navbar-brand">
               CodeIgniter Demo
             </span>
           </div> <!-- Navigation bar Header -->
 
-          <ul class="nav navbar-nav">
-            <li><a href="<?=base_url("/") ?>" class="btn">
-              <span class="glyphicon glyphicon-home"></span>
-              Home</a>
-            </li>
-            <li><a class="btn" href="<?=base_url("categories") ?>" >Categories</a></li>
-            <li><a class="btn" href="<?=base_url("articles") ?>">Articles</a></li>
-          </ul> <!-- Navigation bar right -->
+          <div class="collapse navbar-collapse" id="demoNavbar">
+            <ul class="nav navbar-nav navbar-right">
+              <li><a href="<?=base_url("/") ?>" class="btn">
+                <span class="glyphicon glyphicon-home"></span>
+                Home</a>
+              </li>
+              <li><a class="btn" href="<?=base_url("categories") ?>" >Categories</a></li>
+              <li><a class="btn" href="<?=base_url("articles") ?>">Articles</a></li>
+            </ul> <!-- Navigation bar right -->
+          </div>
         </div> <!-- Container Fluid -->
       </nav> <!-- Navigation bar -->
     </header>

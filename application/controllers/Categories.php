@@ -8,6 +8,7 @@ class Categories extends CI_Controller {
         parent::__construct();
         // Pull in the Categories model
         $this->load->model('categories_model');
+
     }
 
     // This index function will automatically get call when Categories
@@ -16,7 +17,7 @@ class Categories extends CI_Controller {
         // Pull category data from model and put it with a associated
         // category_list, which will become a variable later for
         // the view to use
-        $data['category_list'] = $this->categories_model->getCategories();
+        $data['category_list'] = $this->categories_model->getCatTree();
 
         //var_dump($data);
         $this->load->view('header');
@@ -26,30 +27,21 @@ class Categories extends CI_Controller {
 
     // This function will load a form to update the category base on the
     // selected Id
-    public function getForm($categoryId = FALSE) {
+    public function form($categoryId = NULL) {
 
         //TODO: Code to show the update form and populate the data in there
         // from database
-        if ($categoryId === FALSE) {
-            $data['formName'] = 'Add Category';
-            $data['formAction'] = 'categories/add';
-            $data['name'] = '';
-            $data['description'] = '';
-            $data['parentId'] = '';
-            $data['level'] = '';
+        if (is_null($categoryId)) {
+            // Pull Category Information for insert
+            $data = $this->categories_model->getForm();
 
-            //TODO: Display the empty form for adding new category
         } else {
-            $data['formName'] = 'Update Category';
-            $data['formAction'] = 'categories/update';
-            $data['name'] = 'Some Dummy category';
-            $data['description'] = 'This is a dummy category description';
-            $data['parentId'] = 2;
-            $data['level'] = 2;
-            $data['categoryId'] = $categoryId;
-            //TODO: Pull the data from the database and populate the form
-            // to update
+            // Pull Category for update
+            $data = $this->categories_model->getForm($categoryId);
         }
+
+        // Get the parentOptions and exclude the one that we are modifying
+        $data['parentOptions'] = $this->categories_model->getCatTree($data['categoryId']);
 
         // Load the view form
         $this->load->view('header');
@@ -58,26 +50,67 @@ class Categories extends CI_Controller {
 
     }
 
-    // This function will perform the actual update of the category
-    public function update() {
+    public function validate() {
+        // Grab all the form Data
+        $formData = $this->input->post(NULL, TRUE);
 
-        //TODO: Code up the function that will update the Category
-        echo "Function update ";
-        echo "<br>";
-        echo "Name is: " . $this->input->post('name');
-        echo "<br>";
-        echo "Description is: " . $this->input->post('description');
-        echo "<br>";
-        echo "Parent Id is: " . $this->input->post('parentId');
-        echo "<br>";
-        // Reload the Categories List after done.
-        //$this->index();
+        var_dump($formData);
+        // Method was call directly without any form information
+        if ( empty($formData['formSubmit']) ) {
+            redirect('categories');
+        }
+
+        // Method call through a form
+        if ($formData['parentId'] === '') {
+            $formData['parentId'] = NULL;
+        }
+
+        if ($formData['categoryId'] === '') {
+            $formData['categoryId'] = NULL;
+        }
+
+        // Set form valiation rules
+        $this->form_validation->set_rules('name', 'Category Name', 'required');
+        $this->form_validation->set_rules('description', 'Category Description', 'required');
+
+        if ($this->form_validation->run() === FALSE)
+        {
+            // Need to repull the parent categories options
+            $formData['parentOptions'] = $this->categories_model->getCatTree($formData['categoryId']);
+
+            // Regenerate the form again
+            $this->load->view('header');
+            $this->load->view('categories_form', $formData);
+            $this->load->view('footer');
+        } else {
+
+            if ($formData['formSubmit'] === 'Add') {
+                $this->add();
+            } elseif ($formData['formSubmit'] === 'Update') {
+                $this->update();
+            }
+        }
+    }
+    // This function will perform the actual update of the category
+    private function update() {
+        // Update data
+        if ($this->categories_model->updateCategory()) {
+            redirect('categories');
+        } else {
+            show_error('Have problem updating category');
+        }
     }
 
     // This function will perform the actual add of the category
-    public function add() {
-        //TODO: code to gather form data and add it to database
-        echo "Function add";
+    private function add() {
+
+        // Insert data
+        if ($this->categories_model->insertCategory()) {
+            redirect('categories');
+        } else {
+            show_error('Have problem add category');
+        }
+
     }
 
 }

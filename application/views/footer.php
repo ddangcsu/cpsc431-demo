@@ -1,5 +1,5 @@
     <footer>
-      <nav class="navbar navbar-inverse navbar-fixed-bottom">
+      <nav class="navbar navbar-inverse">
         <div class="container-fluid">
           <p class="navbar-text">
             PHP demo using CodeIgniter MVC Framework
