@@ -5,6 +5,7 @@ class Categories_model extends CI_Model {
 
     // Constructor to load the database helper library
     public function __construct() {
+        parent::__construct();
         $this->load->database();
     }
 
@@ -16,7 +17,7 @@ class Categories_model extends CI_Model {
         // Use CodeIgniter query builder class to create the SQL
         $sql = "a.categoryId, a.name, a.description,
                     a.parentId,
-                    case WHEN b.name is NULL
+                    case WHEN a.parentId is NULL
                         THEN 'Root Level'
                         ELSE b.name
                     END
@@ -48,11 +49,8 @@ class Categories_model extends CI_Model {
         return $result;
     }
 
-    /**
-     * Function to get category (either all or a single)
-     * @param  [mixed] $categoryId [an Id]
-     * @return [array]             [Data for a given category]
-     */
+    // Function to return data to fill in the form for either adding new
+    // category or update an existing category.  The result data is an array
     public function getForm($categoryId = NULL) {
 
         if (is_null($categoryId)) {
@@ -111,5 +109,38 @@ class Categories_model extends CI_Model {
             return FALSE;
         }
     }
+
+    // Function to add a new Category into the database
+    public function deleteCategory() {
+        // Get form data to update
+        $categoryId = $this->input->post('categoryId');
+
+        // Update all children category to have the parent category
+        $query = $this->db->select('parentId')
+                    ->where('categoryId', $categoryId)
+                    ->get('categories');
+
+        if ($query) {
+            $newParentId = $query->result_array()[0]['parentId'];
+        }
+
+        // Update all children categories of this delete category Id
+        // and set the parentId to the parent of the delete CategoryId
+        // We do not need to check how many row affected since if we delete
+        // a child, it will not need to do anything for this step
+        $this->db->where('parentId', $categoryId)
+            ->update('categories', array('parentId'=>$newParentId));
+
+        // Now we can delete the CategoryId
+        $this->db->where('categoryId', $categoryId)
+            ->delete('categories');
+
+        if ($this->db->affected_rows() > 0) {
+            return $this->db->affected_rows();
+        } else {
+            return FALSE;
+        }
+
+    } // End deleteCategory
 
 }

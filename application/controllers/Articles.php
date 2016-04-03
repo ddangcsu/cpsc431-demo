@@ -1,51 +1,43 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Categories extends CI_Controller {
+class Articles extends CI_Controller {
 
     // Constructor to load the model (database)
     public function __construct() {
         parent::__construct();
-        // Pull in the Categories model
+        // Load both the categories model and the articles model
+        $this->load->model('articles_model', 'articles');
         $this->load->model('categories_model', 'categories');
-
     }
 
-    // This index function will automatically get call when Categories
-    // Controller is called
+    // This index function will automatically get call when Articles controller
+    // is called
     public function index() {
-        // Pull category data from model and put it with a associated
-        // category_list, which will become a variable later for
-        // the view to use
-        $data['category_list'] = $this->categories->getCatTree();
-
-        //var_dump($data);
-        $this->load->view('header');
-        $this->load->view('categories/listing', $data);
-        $this->load->view('footer');
+        echo "Article controller";
     }
 
     // This function will load a form to update the category base on the
     // selected Id
-    public function form($categoryId = NULL) {
+    public function form($articleId = NULL) {
 
         //TODO: Code to show the update form and populate the data in there
         // from database
-        if (is_null($categoryId)) {
+        if (is_null($articleId)) {
             // Pull Category Information for insert
-            $data = $this->categories->getForm();
+            $data = $this->articles->getForm();
 
         } else {
             // Pull Category for update
-            $data = $this->categories->getForm($categoryId);
+            $data = $this->articles->getForm($articleId);
         }
 
-        // Get the parentOptions and exclude the one that we are modifying
-        $data['parentOptions'] = $this->categories->getCatTree($data['categoryId']);
+        // Get a list of category tree
+        $data['categoryOptions'] = $this->categories->getCatTree();
 
         // Load the view form
         $this->load->view('header');
-        $this->load->view('categories/form', $data);
+        $this->load->view('articles/form', $data);
         $this->load->view('footer');
 
     }
@@ -57,7 +49,7 @@ class Categories extends CI_Controller {
         var_dump($formData);
         // Method was call directly without any form information
         if ( empty($formData['formSubmit']) ) {
-            redirect('categories');
+            redirect('articles');
         }
 
         // Method call through a form
@@ -76,7 +68,7 @@ class Categories extends CI_Controller {
         if ($this->form_validation->run() === FALSE)
         {
             // Need to repull the parent categories options
-            $formData['parentOptions'] = $this->categories->getCatTree($formData['categoryId']);
+            $formData['parentOptions'] = $this->categories_model->getCatTree($formData['categoryId']);
 
             // Regenerate the form again
             $this->load->view('header');
@@ -94,10 +86,10 @@ class Categories extends CI_Controller {
     // This function will perform the actual update of the category
     private function update() {
         // Update data
-        if ($this->categories->updateCategory()) {
-            redirect('categories');
+        if ($this->articles->updateArticle()) {
+            redirect('articles');
         } else {
-            show_error('Have problem updating category');
+            show_error('Have problem updating article');
         }
     }
 
@@ -105,26 +97,10 @@ class Categories extends CI_Controller {
     private function add() {
 
         // Insert data
-        if ($this->categories->insertCategory()) {
-            redirect('categories');
+        if ($this->articles->insertArticle()) {
+            redirect('articles');
         } else {
-            show_error('Have problem add category');
-        }
-
-    }
-
-    // This function will perform the actual add of the category
-    public function delete() {
-        $categoryId = $this->input->post('categoryId');
-
-        if (is_null($categoryId)) {
-            show_error('Invalid attempt to delete category');
-        }
-
-        if ($this->categories->deleteCategory()) {
-            redirect('categories');
-        } else {
-            show_error('Have problem delete category ' . $categoryId );
+            show_error('Have problem add article');
         }
 
     }

@@ -36,12 +36,14 @@
             <input type="hidden" name="categoryId" value="<?=set_value('categoryId', $categoryId) ?>">
             <input type="hidden" name="formTitle" value="<?=set_value('formTitle', $formTitle) ?>">
             <input type="hidden" name="formAction" value="<?=set_value('formAction', $formAction) ?>">
-            <input type="hidden" name="csrf_formHash" value="<?=$this->security->get_csrf_hash() ?>"
+            <input type="hidden" name="csrf_formHash" value="<?=$this->security->get_csrf_hash() ?>">
           </div>
           <div class="form-group">
             <input class="btn btn-primary" type="submit" name="formSubmit" value="<?= $formSubmit ?>">
+            <a class="btn btn-danger" href="<?=base_url("categories")?>">Cancel</a>
           </div>
         </form>
+
       </div> <!-- Scale to use 8 columns center in the middle -->
     </div> <!-- Grid row system -->
   </div> <!-- Fluid Container -->
