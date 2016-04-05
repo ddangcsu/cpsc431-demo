@@ -31,12 +31,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
           <div class="collapse navbar-collapse" id="demoNavbar">
             <ul class="nav navbar-nav navbar-right">
-              <li><a href="<?=base_url("/") ?>" class="btn">
+              <li id="navHome"><a href="<?=base_url("/") ?>" class="btn">
                 <span class="glyphicon glyphicon-home"></span>
                 Home</a>
               </li>
-              <li><a class="btn" href="<?=base_url("categories") ?>" >Categories</a></li>
-              <li><a class="btn" href="<?=base_url("articles") ?>">Articles</a></li>
+              <li id="navCategories"><a class="btn" href="<?=base_url("categories") ?>" >Categories</a></li>
+              <li id="navArticles"><a class="btn" href="<?=base_url("articles") ?>">Articles</a></li>
             </ul> <!-- Navigation bar right -->
           </div>
         </div> <!-- Container Fluid -->

@@ -14,7 +14,12 @@ class Articles extends CI_Controller {
     // This index function will automatically get call when Articles controller
     // is called
     public function index() {
-        echo "Article controller";
+        $data['articles_list'] = $this->articles->getArticle();
+
+        //var_dump($data);
+        $this->load->view('header');
+        $this->load->view('articles/listing', $data);
+        $this->load->view('footer');
     }
 
     // This function will load a form to update the category base on the
@@ -52,27 +57,19 @@ class Articles extends CI_Controller {
             redirect('articles');
         }
 
-        // Method call through a form
-        if ($formData['parentId'] === '') {
-            $formData['parentId'] = NULL;
-        }
-
-        if ($formData['categoryId'] === '') {
-            $formData['categoryId'] = NULL;
-        }
-
         // Set form valiation rules
-        $this->form_validation->set_rules('name', 'Category Name', 'required');
-        $this->form_validation->set_rules('description', 'Category Description', 'required');
+        $this->form_validation->set_rules('categoryId', 'Article Category', 'required');
+        $this->form_validation->set_rules('title', 'Article Title', 'required');
+        $this->form_validation->set_rules('content', 'Article Content', 'required');
 
         if ($this->form_validation->run() === FALSE)
         {
             // Need to repull the parent categories options
-            $formData['parentOptions'] = $this->categories_model->getCatTree($formData['categoryId']);
+            $formData['categoryOptions'] = $this->categories->getCatTree();
 
             // Regenerate the form again
             $this->load->view('header');
-            $this->load->view('categories/form', $formData);
+            $this->load->view('articles/form', $formData);
             $this->load->view('footer');
         } else {
 
@@ -86,7 +83,7 @@ class Articles extends CI_Controller {
     // This function will perform the actual update of the category
     private function update() {
         // Update data
-        if ($this->articles->updateArticle()) {
+        if ($this->articles->update()) {
             redirect('articles');
         } else {
             show_error('Have problem updating article');
@@ -95,14 +92,27 @@ class Articles extends CI_Controller {
 
     // This function will perform the actual add of the category
     private function add() {
-
         // Insert data
-        if ($this->articles->insertArticle()) {
+        if ($this->articles->insert()) {
             redirect('articles');
         } else {
             show_error('Have problem add article');
         }
-
     }
 
+    public function delete() {
+        // Delete data-
+        $articleId = $this->input->post('articleId');
+
+        if (is_null($articleId)) {
+            show_error('Invalid attempt to delete article');
+        }
+
+        if ($this->articles->delete()) {
+            redirect('articles');
+        } else {
+            show_error('Have problem delete article ' . $articleId );
+        }
+
+    }
 }

@@ -21,7 +21,9 @@ class Categories_model extends CI_Model {
                         THEN 'Root Level'
                         ELSE b.name
                     END
-                    AS parentName";
+                    AS parentName,
+                    (select count(1) from articles where categoryId = a.categoryId)
+                    AS articleCount";
 
         $this->db->select($sql);
         $this->db->from('categories a');
@@ -77,7 +79,7 @@ class Categories_model extends CI_Model {
     }
 
     // Function to update Category
-    public function updateCategory() {
+    public function update() {
         // Get form data to update
         $data = $this->input->post(array('name', 'description', 'parentId'));
         if ($data['parentId'] === '') {
@@ -96,7 +98,7 @@ class Categories_model extends CI_Model {
     }
 
     // Function to add a new Category into the database
-    public function insertCategory() {
+    public function insert() {
         // Get form data to update
         $data = $this->input->post(array('name', 'description', 'parentId'));
         if ($data['parentId'] === '') {
@@ -111,7 +113,7 @@ class Categories_model extends CI_Model {
     }
 
     // Function to add a new Category into the database
-    public function deleteCategory() {
+    public function delete() {
         // Get form data to update
         $categoryId = $this->input->post('categoryId');
 

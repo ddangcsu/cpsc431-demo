@@ -21,3 +21,7 @@
 .tree-level-6 {
     margin-left: 12em;
 }
+
+.list-group-item:nth-child(odd) {
+    background-color: linen;
+}

@@ -94,7 +94,7 @@ class Categories extends CI_Controller {
     // This function will perform the actual update of the category
     private function update() {
         // Update data
-        if ($this->categories->updateCategory()) {
+        if ($this->categories->update()) {
             redirect('categories');
         } else {
             show_error('Have problem updating category');
@@ -105,7 +105,7 @@ class Categories extends CI_Controller {
     private function add() {
 
         // Insert data
-        if ($this->categories->insertCategory()) {
+        if ($this->categories->insert()) {
             redirect('categories');
         } else {
             show_error('Have problem add category');
@@ -121,7 +121,7 @@ class Categories extends CI_Controller {
             show_error('Invalid attempt to delete category');
         }
 
-        if ($this->categories->deleteCategory()) {
+        if ($this->categories->delete()) {
             redirect('categories');
         } else {
             show_error('Have problem delete category ' . $categoryId );

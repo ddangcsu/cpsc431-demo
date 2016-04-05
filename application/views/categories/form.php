@@ -30,7 +30,7 @@
           </div>
           <div class="form-group error">
             <label for="description">Category Description</label>
-            <textarea id="description" class="form-control" name="description"><?=set_value('description', $description)?></textarea>
+            <textarea id="description" class="form-control" name="description" rows="10"><?=set_value('description', $description)?></textarea>
           </div>
           <div class="form-group">
             <input type="hidden" name="categoryId" value="<?=set_value('categoryId', $categoryId) ?>">

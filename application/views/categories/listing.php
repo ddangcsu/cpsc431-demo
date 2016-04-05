@@ -17,13 +17,15 @@
             <div class="list-group-item">
               <div class="tree-level-<?=$category['level']?>">
                 <!-- Create a button to allow delete category -->
-                <a categoryId="<?=$category['categoryId']?>"
-                  class="categoryDelete btn btn-sm btn-danger pull-right" data-toggle="tooltip"
-                  data-placement="bottom" title="Delete Category" href="">
-                  <span class="glyphicon glyphicon-trash">
-                </a>
-                <!-- Create a spacer -->
-                <span class="pull-right">&nbsp;</span>
+                <?php if ($category['articleCount'] < 1): ?>
+                  <a categoryId="<?=$category['categoryId']?>"
+                    class="categoryDelete btn btn-sm btn-danger pull-right" data-toggle="tooltip"
+                    data-placement="bottom" title="Delete Category" href="">
+                    <span class="glyphicon glyphicon-trash">
+                  </a>
+                  <!-- Create a spacer -->
+                  <span class="pull-right">&nbsp;&nbsp;</span>
+                <?php endif; ?>
                 <!-- Create a button to edit category will be place 2nd most right -->
                 <a class="btn btn-sm btn-info pull-right"
                   data-toggle="tooltip" data-placement="bottom" title="Edit Category"
@@ -31,7 +33,9 @@
                   <span class="glyphicon glyphicon-edit">
                 </a>
                 <!-- Heading of the item -->
-                <h4 class="list-group-item-heading"><?=html_escape($category['name']) ?></h4>
+                <h4 class="list-group-item-heading"><?=html_escape($category['name'])?>
+                  (<?=html_escape($category['articleCount'])?>)
+                </h4>
                 <!-- Item content text -->
                 <p class="list-group-item-text"><?=html_escape($category['description']) ?></p>
               </div>
