@@ -25,7 +25,7 @@
           </div>
           <div class="form-group">
             <label for="content">Article Content</label>
-            <textarea class="form-control" id="content" name="content" rows="10"><?=set_value('content', $content) ?></textarea>
+            <textarea class="form-control" id="content" name="content"><?=set_value('content', $content) ?></textarea>
           </div>
           <div class="form-group">
             <input type="hidden" name="articleId" value="<?=set_value('articleId', $articleId) ?>">

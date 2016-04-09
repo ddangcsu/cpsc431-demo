@@ -18,8 +18,8 @@
               <div class="tree-level-<?=$category['level']?>">
                 <!-- Create a button to allow delete category -->
                 <?php if ($category['articleCount'] < 1): ?>
-                  <a categoryId="<?=$category['categoryId']?>"
-                    class="categoryDelete btn btn-sm btn-danger pull-right" data-toggle="tooltip"
+                  <a itemId="<?=$category['categoryId']?>"
+                    class="itemDelete btn btn-sm btn-danger pull-right" data-toggle="tooltip"
                     data-placement="bottom" title="Delete Category" href="">
                     <span class="glyphicon glyphicon-trash">
                   </a>
@@ -33,11 +33,18 @@
                   <span class="glyphicon glyphicon-edit">
                 </a>
                 <!-- Heading of the item -->
-                <h4 class="list-group-item-heading"><?=html_escape($category['name'])?>
-                  (<?=html_escape($category['articleCount'])?>)
-                </h4>
+                <?php if ($category['articleCount'] > 0): ?>
+                  <a href="<?=base_url('categories/view') . '/' . $category['categoryId']?>">
+                    <h4 class="list-group-item-heading"><?=html_escape(strip_tags($category['name']))?>
+                      (<?=html_escape($category['articleCount'])?>)
+                    </h4>
+                  </a>
+                <?php else: ?>
+                  <h4 class="list-group-item-heading"><?=html_escape(strip_tags($category['name']))?></h4>
+                <?php endif; ?>
+                
                 <!-- Item content text -->
-                <p class="list-group-item-text"><?=html_escape($category['description']) ?></p>
+                <p class="list-group-item-text"><?=html_escape(strip_tags($category['description'])) ?></p>
               </div>
             </div> <!-- A list group item -->
           <?php endforeach; ?>
@@ -53,14 +60,14 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h3 class="text-warning">Are you sure?</h3>
+        <h3 class="text-warning">Delete Confirmation</h3>
       </div>
       <div class="modal-body">
         <!-- Content goes here -->
       </div>
       <div class="modal-footer">
         <form id="deleteForm" action="categories/delete" method="POST">
-          <input type="hidden" name="categoryId">
+          <input id="itemId" type="hidden" name="categoryId">
           <input type="hidden" name="csrf_formHash" value="<?=$this->security->get_csrf_hash() ?>">
         </form>
         <button type="button" class="btn btn-primary" id="delete">Delete</button>

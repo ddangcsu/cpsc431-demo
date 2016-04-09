@@ -25,7 +25,27 @@ class Articles_model extends CI_Model {
 
         // Retrieve and return data
         $query = $this->db->get('articles a');
-        return $query->result_array();
+        if ($query->num_rows() === 1) {
+            return $query->result_array()[0];
+        } else {
+            return $query->result_array();
+        }
+    }
+
+    // Function to return articles
+    public function getArticleByCat($categoryId) {
+        $this->db->select('a.*, b.*')
+            ->from('articles a')
+            ->join('categories b', 'a.categoryId = b.categoryId')
+            ->where('a.categoryId', $categoryId);
+
+        // Retrieve and return data
+        $query = $this->db->get();
+        if ($query->num_rows() > 0) {
+            return $query->result_array();
+        } else {
+            return null;
+        }
     }
 
     // Function to return a form data for add or update
@@ -47,7 +67,7 @@ class Articles_model extends CI_Model {
         } else {
             // Update Form
             // Get data for the first row only
-            $data = $this->getArticle($articleId)[0];
+            $data = $this->getArticle($articleId);
             $data['formTitle'] = 'Update Article';
             $data['formSubmit'] = 'Update';
             $data['formAction'] = 'articles/validate';
@@ -57,7 +77,7 @@ class Articles_model extends CI_Model {
 
     // Function to update Article
     public function update() {
-
+        echo "In here";
         $data = $this->input->post(array('categoryId', 'title', 'content'));
         $data['modifiedDate'] = date("Y-m-d");
 
@@ -65,11 +85,8 @@ class Articles_model extends CI_Model {
         $this->db->where('articleId', $this->input->post('articleId'));
 
         // Run update on table
-        if ($this->db->update('articles', $data)) {
-            return $this->db->affected_rows();
-        } else {
-            return FALSE;
-        }
+        $this->db->update('articles', $data);
+        return $this->db->affected_rows();
     }
 
     // Function to add a new article

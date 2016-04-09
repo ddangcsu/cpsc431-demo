@@ -13,11 +13,11 @@
 
         <!-- List of articles -->
         <div class="list-group">
-          <?php foreach ($articles_list as $article): ?>
+          <?php foreach ($article_list as $article): ?>
             <div class="list-group-item">
               <!-- Create a button to allow delete category -->
-              <a articleId="<?=$article['articleId']?>"
-                class="articleDelete btn btn-sm btn-danger pull-right" data-toggle="tooltip"
+              <a itemId="<?=$article['articleId']?>"
+                class="itemDelete btn btn-sm btn-danger pull-right" data-toggle="tooltip"
                 data-placement="bottom" title="Delete Article" href="">
                 <span class="glyphicon glyphicon-trash">
               </a>
@@ -30,11 +30,14 @@
                 <span class="glyphicon glyphicon-edit">
               </a>
               <!-- Heading of the item -->
-              <h4 class="list-group-item-heading"><?=html_escape($article['title'])?></h4>
-              <h5 class="list-group-item-heading">Category: <?=html_escape($article['categoryName'])?></h5>
-              <!-- Item content text -->
-              <p class="list-group-item-text">Posted: <?=nice_date($article['createdDate'], 'm/d/Y') ?></p>
-              <p class="list-group-item-text"><?=html_escape(word_limiter(strip_tags($article['content']), 20, '...')) ?></p>
+                <a href="<?=base_url('articles/view') . '/' . $article['articleId']?>">
+                  <h4 class="list-group-item-heading"><?=html_escape($article['title'])?></h4>
+                </a>
+                <h5 class="list-group-item-heading">Category: <?=html_escape($article['categoryName'])?></h5>
+                <!-- Item content text -->
+                <p class="list-group-item-text">Posted: <?=nice_date($article['createdDate'], 'm/d/Y') ?></p>
+                <p class="list-group-item-text"><?=word_limiter(strip_tags($article['content']), 20, '...') ?></p>
+
             </div> <!-- A list group item -->
           <?php endforeach; ?>
         </div> <!-- A list group of articles -->
@@ -49,14 +52,14 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h3 class="text-warning">Are you sure?</h3>
+        <h3 class="text-warning">Delete Confirmation</h3>
       </div>
       <div class="modal-body">
         <!-- Content goes here -->
       </div>
       <div class="modal-footer">
         <form id="deleteForm" action="articles/delete" method="POST">
-          <input type="hidden" name="articleId">
+          <input id="itemId" type="hidden" name="articleId">
           <input type="hidden" name="csrf_formHash" value="<?=$this->security->get_csrf_hash() ?>">
         </form>
         <button type="button" class="btn btn-primary" id="delete">Delete</button>

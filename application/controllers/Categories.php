@@ -8,7 +8,7 @@ class Categories extends CI_Controller {
         parent::__construct();
         // Pull in the Categories model
         $this->load->model('categories_model', 'categories');
-
+        $this->load->model('articles_model', 'articles');
     }
 
     // This index function will automatically get call when Categories
@@ -25,12 +25,34 @@ class Categories extends CI_Controller {
         $this->load->view('footer');
     }
 
+    public function view($categoryId) {
+        if (is_null($categoryId)) {
+            redirect("categories");
+        }
+        // Pull data for the request article
+        try {
+            $data['article_list'] = $this->articles->getArticleByCat($categoryId);
+            if (count($data['article_list']) === 0) {
+                // No result so we redirect them to the categories listing
+                redirect("categories");
+            } else {
+                $data['bread_crumbs'] = $this->categories->getBreadCrumb($categoryId);
+            }
+
+            //var_dump($data);
+            $this->load->view('header');
+            $this->load->view('categories/view', $data);
+            $this->load->view('footer');
+
+        } catch (Exception $e) {
+            show_error("Error occur " + $e);
+        }
+
+    }
     // This function will load a form to update the category base on the
     // selected Id
     public function form($categoryId = NULL) {
 
-        //TODO: Code to show the update form and populate the data in there
-        // from database
         if (is_null($categoryId)) {
             // Pull Category Information for insert
             $data = $this->categories->getForm();
@@ -47,14 +69,13 @@ class Categories extends CI_Controller {
         $this->load->view('header');
         $this->load->view('categories/form', $data);
         $this->load->view('footer');
-
     }
 
     public function validate() {
         // Grab all the form Data
         $formData = $this->input->post(NULL, TRUE);
 
-        var_dump($formData);
+        //var_dump($formData);
         // Method was call directly without any form information
         if ( empty($formData['formSubmit']) ) {
             redirect('categories');

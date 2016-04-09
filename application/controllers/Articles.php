@@ -14,12 +14,31 @@ class Articles extends CI_Controller {
     // This index function will automatically get call when Articles controller
     // is called
     public function index() {
-        $data['articles_list'] = $this->articles->getArticle();
-
+        $data['article_list'] = $this->articles->getArticle();
         //var_dump($data);
         $this->load->view('header');
         $this->load->view('articles/listing', $data);
         $this->load->view('footer');
+    }
+
+    // View the specific item
+    public function view($articleId) {
+        if (is_null($articleId)) {
+            redirect("articles");
+        }
+
+        // Pull data for the request article
+        try {
+            $data = $this->articles->getArticle($articleId);
+            $data['crumbs'] = $this->categories->getBreadCrumb($data['categoryId']);
+
+            //var_dump($data);
+            $this->load->view('header');
+            $this->load->view('articles/view', $data);
+            $this->load->view('footer');
+        } catch (Exception $e) {
+            show_error("Error occur " + $e);
+        }
     }
 
     // This function will load a form to update the category base on the
@@ -74,29 +93,11 @@ class Articles extends CI_Controller {
         } else {
 
             if ($formData['formSubmit'] === 'Add') {
-                $this->add();
+                $this->articles->insert();
             } elseif ($formData['formSubmit'] === 'Update') {
-                $this->update();
+                $this->articles->update();
             }
-        }
-    }
-    // This function will perform the actual update of the category
-    private function update() {
-        // Update data
-        if ($this->articles->update()) {
             redirect('articles');
-        } else {
-            show_error('Have problem updating article');
-        }
-    }
-
-    // This function will perform the actual add of the category
-    private function add() {
-        // Insert data
-        if ($this->articles->insert()) {
-            redirect('articles');
-        } else {
-            show_error('Have problem add article');
         }
     }
 

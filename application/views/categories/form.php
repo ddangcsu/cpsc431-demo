@@ -28,9 +28,9 @@
             <label for="name">Category Name</label>
             <input type="text" id="name" name="name" class="form-control" value="<?=set_value('name',$name)?>">
           </div>
-          <div class="form-group error">
+          <div class="form-group">
             <label for="description">Category Description</label>
-            <textarea id="description" class="form-control" name="description" rows="10"><?=set_value('description', $description)?></textarea>
+            <textarea id="description" class="form-control" name="description" rows="5"><?=set_value('description', $description)?></textarea>
           </div>
           <div class="form-group">
             <input type="hidden" name="categoryId" value="<?=set_value('categoryId', $categoryId) ?>">

@@ -51,6 +51,27 @@ class Categories_model extends CI_Model {
         return $result;
     }
 
+    // Function to build a breadcrumb
+    public function getBreadCrumb($categoryId) {
+        // Need to declare the static function
+        $result = array();
+        if (is_null($categoryId)) {
+            return $result;
+        } else {
+            $sql = 'a.categoryId, a.name, a.parentId,
+                    (select count(1) from articles where categoryId = a.categoryId)
+                    AS articleCount';
+            $query = $this->db->select($sql)
+                    ->get_where('categories a', array('a.categoryId' => $categoryId));
+
+            if ($query->num_rows() !== 0) {
+                $row = $query->result_array()[0];
+                array_push($result, $row);
+                return array_merge($this->getBreadCrumb($row['parentId']), $result);
+            }
+        }
+    }
+
     // Function to return data to fill in the form for either adding new
     // category or update an existing category.  The result data is an array
     public function getForm($categoryId = NULL) {
