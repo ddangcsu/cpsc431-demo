@@ -10,7 +10,7 @@ class Articles_model extends CI_Model {
     }
 
     // Function to return articles
-    public function getArticle($articleId = NULL) {
+    public function getArticle($articleId = NULL,$limit = NULL) {
         $categoryName = "(select name from categories
                     where categoryId = a.categoryId)
                 AS categoryName";
@@ -23,9 +23,19 @@ class Articles_model extends CI_Model {
             $this->db->where('articleId', $articleId);
         }
 
+        if ( ! is_null($limit) && is_numeric($limit) && $limit > 0) {
+            // Set limit only if valid.  Else just return all
+            $this->db->limit($limit);
+        }
+
         // Retrieve and return data
+        $this->db->order_by('a.modifiedDate', 'DESC')
+                ->order_by('a.createdDate', 'DESC');
+        
         $query = $this->db->get('articles a');
-        if ($query->num_rows() === 1) {
+
+
+        if ($query->num_rows() === 1 && ! is_null($articleId)) {
             return $query->result_array()[0];
         } else {
             return $query->result_array();

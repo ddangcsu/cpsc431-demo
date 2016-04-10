@@ -11,9 +11,27 @@
     </div>
     <div class="row">
       <div class="col-xs-12 col-md-8 col-md-offset-2">
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-        </p>
+        <p class="h3">Top 6 Newest Articles </p>
+        <div class="row">
+          <?php foreach ($article_list as $article): ?>
+            <div class="col-sm-6 col-md-4">
+              <div class="thumbnail">
+                <div class="caption">
+                  <a href="<?=base_url('articles/view') . '/' . $article['articleId']?>">
+                    <h4><?=html_escape($article['title'])?></h4>
+                  </a>
+                  <h5>Category: <?=html_escape($article['categoryName'])?></h5>
+                  <p>Posted: <?=nice_date($article['modifiedDate'], 'm/d/Y') ?></p>
+                  <div>
+                      <?=word_limiter(strip_tags($article['content']), 20, '...') ?>
+                  </div>
+                </div>
+              </div>
+            </div>
+          <?php endforeach; ?>
+
+        </div> <!-- smaller row insize a 8 column grids -->
+
       </div> <!-- Scale to use 8 columns center in the middle -->
     </div> <!-- Grid row system -->
   </div> <!-- Fluid Container -->

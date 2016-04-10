@@ -29,12 +29,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
               CodeIgniter Demo
             </span>
           </div> <!-- Navigation bar Header -->
-          <form class="navbar-form navbar-left" role="search">
+          <?php echo form_open('',array('class'=>'navbar-form navbar-left')); ?>
             <div class="form-group">
-              <input type="text" class="form-control" placeholder="Search">
-              <button type="submit" class="btn btn-default">Submit</button>
+              <div class="input-group">
+                <input type="text" class="form-control" placeholder="Search">
+                <span class="input-group-btn">
+                  <button type="submit" class="btn btn-default">
+                     <span class="glyphicon glyphicon-search"></span>
+                  </button>
+                </span>
+              </div>
             </div>
-
           </form>
           <div class="collapse navbar-collapse" id="demoNavbar">
             <ul class="nav navbar-nav navbar-right">
@@ -42,7 +47,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <span class="glyphicon glyphicon-home"></span>
                 Home</a>
               </li>
+              <!--
               <li id="navTags"><a href="<?=base_url("tags") ?>"><span class="glyphicon glyphicon-tags"></span> Tags</a></li>
+              -->
               <li id="navCategories"><a href="<?=base_url("categories") ?>" ><span class="glyphicon glyphicon-bookmark"></span> Categories</a></li>
               <li id="navArticles"><a href="<?=base_url("articles") ?>"><span class="glyphicon glyphicon-file"></span>Articles</a></li>
               <li>&nbsp;&nbsp;&nbsp;</li>
