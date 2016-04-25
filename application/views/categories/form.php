@@ -2,7 +2,7 @@
   <!-- Grid system -->
   <div class="container-fluid">
     <div class="row">
-      <div class="col-xs-12 col-md-8 col-md-offset-2">
+      <div class="col-xs-12 col-md-10 col-md-offset-1">
         <h3 class="text-center"><?= $formTitle ?></h3>
 
         <?php echo validation_errors('<div class="alert alert-danger">', '</div>'); ?>
@@ -44,7 +44,7 @@
           </div>
         </form>
 
-      </div> <!-- Scale to use 8 columns center in the middle -->
+      </div> <!-- Scale to use 10 columns center in the middle -->
     </div> <!-- Grid row system -->
   </div> <!-- Fluid Container -->
 

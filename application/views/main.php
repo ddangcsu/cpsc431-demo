@@ -3,14 +3,14 @@
 
   <div class="container-fluid">
     <div class="row">
-      <div class="col-xs-12 col-md-8 col-md-offset-2">
+      <div class="col-xs-12 col-md-10 col-md-offset-1">
         <div class="jumbotron">
           <h1>CodeIgniter Web Framework Demo</h1>
         </div>
       </div>
     </div>
     <div class="row">
-      <div class="col-xs-12 col-md-8 col-md-offset-2">
+      <div class="col-xs-12 col-md-10 col-md-offset-1">
         <p class="h3">Top 6 Newest Articles </p>
         <div class="row">
           <?php foreach ($article_list as $article): ?>

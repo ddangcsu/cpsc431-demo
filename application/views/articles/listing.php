@@ -2,7 +2,7 @@
   <!-- Grid system -->
   <div class="container-fluid">
     <div class="row">
-      <div class="col-xs-12 col-md-8 col-md-offset-2">
+      <div class="col-xs-12 col-md-10 col-md-offset-1">
         <div class="item-group">
           <a class="btn btn-sm btn-primary pull-right" href="<?=base_url('articles/form')?>">
             <span class="glyphicon glyphicon-plus"></span>

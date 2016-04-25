@@ -29,6 +29,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
               CodeIgniter Demo
             </span>
           </div> <!-- Navigation bar Header -->
+          <!-- Unimplemented feature
           <?php echo form_open('',array('class'=>'navbar-form navbar-left')); ?>
             <div class="form-group">
               <div class="input-group">
@@ -41,6 +42,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
               </div>
             </div>
           </form>
+          -->
           <div class="collapse navbar-collapse" id="demoNavbar">
             <ul class="nav navbar-nav navbar-right">
               <li id="navHome"><a href="<?=base_url("/") ?>">

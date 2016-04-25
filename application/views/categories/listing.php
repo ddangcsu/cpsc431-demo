@@ -2,7 +2,7 @@
   <!-- Grid system -->
   <div class="container-fluid">
     <div class="row">
-      <div class="col-xs-12 col-md-8 col-md-offset-2">
+      <div class="col-xs-12 col-md-10 col-md-offset-1">
         <div class="item-group">
           <a class="btn btn-sm btn-primary pull-right" href="<?=base_url('categories/form')?>">
             <span class="glyphicon glyphicon-plus"></span>
@@ -42,7 +42,7 @@
                 <?php else: ?>
                   <h4 class="list-group-item-heading"><?=html_escape(strip_tags($category['name']))?></h4>
                 <?php endif; ?>
-                
+
                 <!-- Item content text -->
                 <p class="list-group-item-text"><?=html_escape(strip_tags($category['description'])) ?></p>
               </div>
