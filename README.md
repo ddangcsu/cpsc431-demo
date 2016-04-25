@@ -25,3 +25,19 @@ WAMP 2.4 64 bit server.
     WAMP will restart the server.
 
 6.  Run the project by typing in:  http://localhost/project
+
+
+#### Resources
+
+We use the frameworks, modules, or plugins from the sources listed below.  The
+copyright and ownership are each of their own respective owners.  We are not
+the owner of any of the resource below and only using them to incorporate into
+this project to demonstrate the CI framework for this course.
+
+1.  CodeIgniter Framework: https://codeigniter.com/
+2.  Prism code highlighter: http://prismjs.com/
+3.  jQuery: https://jquery.com/
+4.  CKEditor: http://ckeditor.com/
+5.  Bootstrap: https://getbootstrap.com/
+6.  .htaccess rewrite: https://www.codeigniter.com/userguide3/general/urls.html
+7.  Bootstrap United theme: https://bootswatch.com/
