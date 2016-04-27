@@ -151,6 +151,8 @@ class Categories_model extends CI_Model {
         // and set the parentId to the parent of the delete CategoryId
         // We do not need to check how many row affected since if we delete
         // a child, it will not need to do anything for this step
+        $this->db->trans_start();
+
         $this->db->where('parentId', $categoryId)
             ->update('categories', array('parentId'=>$newParentId));
 
@@ -158,10 +160,12 @@ class Categories_model extends CI_Model {
         $this->db->where('categoryId', $categoryId)
             ->delete('categories');
 
-        if ($this->db->affected_rows() > 0) {
-            return $this->db->affected_rows();
-        } else {
+        $this->db->trans_complete();
+
+        if ($this->db->trans_status() === FALSE) {
             return FALSE;
+        } else {
+            return TRUE;
         }
 
     } // End deleteCategory

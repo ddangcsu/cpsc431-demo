@@ -70,7 +70,7 @@ class Articles extends CI_Controller {
         // Grab all the form Data
         $formData = $this->input->post(NULL, TRUE);
 
-        var_dump($formData);
+        //var_dump($formData);
         // Method was call directly without any form information
         if ( empty($formData['formSubmit']) ) {
             redirect('articles');
